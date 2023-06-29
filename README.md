@@ -1,4 +1,5 @@
-# create-full-stack-astro
+# Create Full Stack - Astro.js
+![Work In Progress](https://img.shields.io/badge/Status-Work%20in%20Progress-yellow)
 
 `create-full-stack-astro` is a Command Line Interface (CLI) tool that provides an opinionated setup for new Astro.js projects. It is built with a focus on rapid iteration, speed to launch, and accessibility. The tool includes various customizable options, and is designed to incorporate technology that is free, open-source, and industry-tested.
 
