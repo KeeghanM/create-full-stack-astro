@@ -2,7 +2,7 @@
   "name": "create-full-stack-astro",
   "version": "1.0.0",
   "description": "",
-  "type":"module",
+  "type": "module",
   "main": "index.js",
   "bin": {
     "create-full-stack-astro": "./index.js"
@@ -14,6 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^9.2.7"
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.7",
+    "ora": "^6.3.1"
   }
 }
