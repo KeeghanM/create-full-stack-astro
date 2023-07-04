@@ -4,7 +4,7 @@ import path from 'path'
 import inquirer from 'inquirer'
 
 const colorValidator = async (input) => {
-  if (input.contains('#') ? !input.contains(',') : input.contains(',')) {
+  if (input.includes('#') ? !input.includes(',') : input.includes(',')) {
     return true
   }
   return 'Invalid Input'
@@ -36,7 +36,7 @@ const questions = [
     default: defaultPrimary,
     message:
       'What is your Primary Color? (if using a hex value like #ffffff please include the "#". If using an RGB value like RGB(255,255,255) just enter the numbers separated by , "255,255,255"',
-    validate: colorValidator(input),
+    validate: colorValidator,
   },
   {
     when: (answers) => answers.colorScheme === true,
@@ -45,7 +45,7 @@ const questions = [
     default: defaultAccent,
     message:
       'What is your Accent Color? (if using a hex value like #ffffff please include the "#". If using an RGB value like RGB(255,255,255) just enter the numbers separated by , "255,255,255"',
-    validate: colorValidator(input),
+    validate: colorValidator,
   },
 ]
 
@@ -61,13 +61,13 @@ export default async function setupCSS(projectName) {
   )
 
   let primaryCol = colorScheme ? primaryColor : defaultPrimary
-  let accentCol = colorScheme ? accentColor : defaultaccent
+  let accentCol = colorScheme ? accentColor : defaultAccent
 
-  const { primaryR, primaryG, primaryB } = primaryCol.contains('#')
+  const [primaryR, primaryG, primaryB] = primaryCol.includes('#')
     ? hexToRgb(primaryCol)
     : primaryCol.split(',')
 
-  const { accentR, accentG, accentB } = accentCol.contains('#')
+  const [accentR, accentG, accentB] = accentCol.includes('#')
     ? hexToRgb(accentCol)
     : accentCol.split(',')
 
@@ -75,12 +75,12 @@ export default async function setupCSS(projectName) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    </html>
+    </head>
 `
 
   const CssString = `
-    /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1240,20,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-    <style is:global>
+  <style is:global>
+  /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1240,20,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
       :root {
         --clr-text-rgb: 26,38,45;
         --clr-surface-rgb: 243,243,243;
@@ -106,11 +106,13 @@ export default async function setupCSS(projectName) {
       }
 
       @media (prefers-color-scheme: dark){
-        --clr-text-rgb: 243,243,243;
-        --clr-surface-rgb: 26,38,45;
+         :root {
+          --clr-text-rgb: 243,243,243;
+          --clr-surface-rgb: 26,38,45;
 
-        --clr-text: rgb(var(--clr-text-rgb));
-        --clr-surface: rgb(var(--clr-surface-rgb));
+          --clr-text: rgb(var(--clr-text-rgb));
+          --clr-surface: rgb(var(--clr-surface-rgb));
+         }
       }
 
       *,
@@ -192,24 +194,8 @@ export default async function setupCSS(projectName) {
   )
 
   let astroFile = fs.readFileSync(filePath, 'utf-8')
-  astroFile = astroFile.replace(`</html>`, fontFamilyImportString)
-  astroFile = astroFile.replace(
-    `<style is:global>
-      :root {
-        --accent: 124, 58, 237;
-        --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-      }
-      html {
-        font-family: system-ui, sans-serif;
-        background-color: #F6F6F6;
-      }
-      code {
-        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-          Bitstream Vera Sans Mono, Courier New, monospace;
-      }
-    </style>`,
-    CssString
-  )
+  astroFile = astroFile.replace(`</head>`, fontFamilyImportString)
+  astroFile = astroFile.split('<style is:global>')[0] + CssString
 
   fs.writeFileSync(filePath, astroFile)
 }
