@@ -16,63 +16,60 @@ const questions = [
     message: 'Project name?',
     default: 'my-astro-project',
   },
-  //   {
-  //     type: 'confirm',
-  //     name: 'solid',
-  //     message: 'Do you want to add solidJS?',
-  //   },
-  //   {
-  //     type: 'confirm',
-  //     name: 'tailwind',
-  //     message: 'Do you want to add Tailwind?',
-  //   },
-  //   {
-  //     type: 'confirm',
-  //     name: 'vercel',
-  //     message: 'Do you want to deploy to Vercel?',
-  //   },
-  //   {
-  //     type: 'confirm',
-  //     name: 'flowbite',
-  //     message: 'Do you want to add Flowbite?',
-  //   },
-  //   {
-  //     type: 'confirm',
-  //     name: 'prismic',
-  //     message: 'Do you want to add Prismic?',
-  //   },
-  //   {
-  //     type: 'confirm',
-  //     name: 'cssReset',
-  //     message: 'Do you want to setup recommended CSS Resets/Defaults?',
-  //   },
+  {
+    type: 'confirm',
+    name: 'solid',
+    message: 'Do you want to add solidJS?',
+  },
+  {
+    type: 'confirm',
+    name: 'tailwind',
+    message: 'Do you want to add Tailwind?',
+  },
+  {
+    type: 'confirm',
+    name: 'vercel',
+    message: 'Do you want to deploy to Vercel?',
+  },
+  {
+    type: 'confirm',
+    name: 'flowbite',
+    message: 'Do you want to add Flowbite?',
+  },
+  {
+    type: 'confirm',
+    name: 'prismic',
+    message: 'Do you want to add Prismic?',
+  },
+  {
+    type: 'confirm',
+    name: 'cssReset',
+    message: 'Do you want to setup recommended CSS Resets/Defaults?',
+  },
 ]
 
 async function main() {
   const answers = await inquirer.prompt(questions)
   const name = answers.name
-  //   const solid = answers.solid
-  //   const tailwind = answers.tailwind
-  //   const vercel = answers.vercel
-  //   const flowbite = answers.flowbite
-  //   const prismic = answers.prismic
-  //   const cssReset = answers.cssReset
+  const solid = answers.solid
+  const tailwind = answers.tailwind
+  const vercel = answers.vercel
+  const flowbite = answers.flowbite
+  const prismic = answers.prismic
+  const cssReset = answers.cssReset
 
-  //   await setupAstro(name)
+  await setupAstro(name)
 
-  //   if (solid) await astroAdd(name, 'solid')
-  //   if (vercel) await astroAdd(name, 'vercel')
-  //   if (tailwind || flowbite) {
-  //     await astroAdd(name, 'tailwind')
-  //     if (flowbite) {
-  //       await setupFlowbite(name)
-  //     }
-  //   }
-  //   if (prismic) await setupPrismic(name)
-  //   if (cssReset) await setupCSS(name)
-
-  await setupPrismic
-  await setupCSS
+  if (solid) await astroAdd(name, 'solid')
+  if (vercel) await astroAdd(name, 'vercel')
+  if (tailwind || flowbite) {
+    await astroAdd(name, 'tailwind')
+    if (flowbite) {
+      await setupFlowbite(name)
+    }
+  }
+  if (prismic) await setupPrismic(name)
+  if (cssReset) await setupCSS(name)
 }
 
 main()
