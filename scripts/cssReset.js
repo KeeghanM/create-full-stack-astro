@@ -4,7 +4,11 @@ import path from 'path'
 import inquirer from 'inquirer'
 
 const colorValidator = async (input) => {
-  if (input.includes('#') ? !input.includes(',') : input.includes(',')) {
+  if (
+    (input.includes('#') ? !input.includes(',') : input.includes(',')) &&
+    !input.includes('(') &&
+    !input.includes(')')
+  ) {
     return true
   }
   return 'Invalid Input'
